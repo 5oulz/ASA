@@ -1,5 +1,6 @@
 # Don't track
 *.o
 proj
+student-tests
 # cenas de mac
 .DS_Store

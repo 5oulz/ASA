@@ -2,18 +2,12 @@
 #include <stdio.h>
 #include "GRAPH.h"
 
-typedef struct node *link;
-
-struct node {
-	int v;
-	link next;
-};
-
-struct graph {
-	int V;
-	int E;
-	link *adj;
-};
+Edge EDGE(int x, int w) {
+    Edge* temp = (Edge*)malloc(sizeof(Edge));
+    temp->v = x;
+    temp->w = w;
+    return *temp;
+}
 
 link InsertBegin(int v, link head) {
     link x = malloc(sizeof(struct node));
@@ -47,7 +41,7 @@ void GRAPHremoveE(Graph G, Edge e){
 
 }
 
-/*int GRAPHedges(Edge a[], Graph G) {
+int GRAPHedges(Edge a[], Graph G) {
     int v, E = 0;
     link t;
 
@@ -60,12 +54,12 @@ void GRAPHremoveE(Graph G, Edge e){
     }
 
     return E;
-}*/
+}
 
-int main() {
-    int temp = 10; /** replace temp for V */
+/**
+ * BFS
+ */
 
-    Graph mainGraph = GRAPHinit(temp);
-    
-    return 0;
+void bfsAlg(Graph G, int startNode) {
+
 }

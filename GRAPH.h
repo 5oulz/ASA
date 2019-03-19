@@ -3,9 +3,21 @@ typedef struct {
     int w;
 } Edge;
 
-typedef struct graph *Graph;
+typedef struct node *link;
+
+struct node {
+	int v;
+	link next;
+};
+
+struct graph {
+	int V;
+	int E;
+	link *adj;
+};
 
 Edge EDGE(int x, int y);
+typedef struct graph *Graph;
 Graph GRAPHinit(int);
 void GRAPHinsertE(Graph, Edge);
 void GRAPHremoveE(Graph, Edge);

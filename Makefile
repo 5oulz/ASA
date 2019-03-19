@@ -1,6 +1,6 @@
 #Makefile
 
-SOURCES = GRAPHlst.c
+SOURCES = main.c GRAPHlst.c
 OBJS = $(SOURCES:%.c=%.o)
 CC   = gcc
 CFLAGS =-Wall -std=gnu99 -I../
@@ -12,6 +12,7 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $(TARGET) $(LDFLAGS) 
 
+main.o: main.c GRAPH.h
 GRAPHlst.o: GRAPHlst.c GRAPH.h
 
 $(OBJS):

@@ -8,15 +8,15 @@
  */
 void printGraph(Graph G, Info *list) {
 	printf("--------------------------------------------\n");
-    printf("Nodes: %d\n", G->V - 1);
-    printf("Edges: %d\n\n", G->E);
+    printf("Nodes: %ld\n", G->V - 1);
+    printf("Edges: %ld\n\n", G->E);
     puts("Graph edges");
 
-    for(int z = 1; z < G->V; z++) {
-        printf("Edge %d connections: ", z);
+    for(long z = 1; z < G->V; z++) {
+        printf("Edge %ld connections: ", z);
 
         for(link k = G->adj[z]; k != NULL;  ) {
-            printf("%d", k->v);
+            printf("%ld", k->v);
             k = k->next;
             if(k != NULL) {
                 printf(", ");
@@ -26,11 +26,11 @@ void printGraph(Graph G, Info *list) {
     }
 
     printf("\n");
-    for(int z = 1; z < G->V; z++) {
+    for(long z = 1; z < G->V; z++) {
     	Info node = list[z];
-    	printf("router %d\n", z);
-    	printf("d %d, f %d\n", node.d, node.f);
-    	printf("predecessor %d\n", node.pred);
+    	printf("router %ld\n", z);
+    	printf("d %ld, f %ld\n", node.d, node.f);
+    	printf("predecessor %ld\n", node.pred);
     	printf("\n");
     }
     printf("--------------------------------------------\n");
@@ -42,47 +42,55 @@ int main(int argc, char** argv) {
     * N - number of routers
     * M - number of connections
     * */
-    int N, M;
-    Graph routerG, forestG; /* test*/
+    long int N, M;
+    Graph routerG;
 
-    scanf("%d", &N);
-    scanf("%d", &M);
+    scanf("%ld", &N);
+    scanf("%ld", &M);
 
-    int j = 0, temp[2];
+    long j = 0, temp[2];
 
     /** init graph */
     routerG = GRAPHinit(N+1);
 
     /** scan input */
     while(j < M) {
-        scanf("%d %d", &temp[0], &temp[1]);
+        scanf("%ld %ld", &temp[0], &temp[1]);
         GRAPHinsertE(routerG, EDGE(temp[0], temp[1]));
         j++;
     }
 
-    /** init DFS list **/
-    Info list[N+1];
-    for (int v = 0; v < N+1; v++) {
-    	list[v].f = 0;
-    	list[v].d = 0;
-    	list[v].pred = 0;
-    	list[v].visited = 0;
-    }
 
     /** primeira resposta ao output **/
+    Info* list = (Info*)malloc((N+1)*sizeof(Info));
+
   	DFS(routerG, list);
-  	forestG = GRAPHinit(N+1);
+    tarjan(routerG, list);
+
   	int subredes = 0;
+  	int ap = 0;
 	for(int z = 1; z < routerG->V; z++) {
     	Info node = list[z];
-    	if (node.pred != 0)
-    		GRAPHinsertE(forestG, EDGE(node.pred, z));
-    	else
+    	if (node.pred == 0)
     		subredes++;
+    	if (list[z].ap == 1)
+    		ap++;
     }
 
+  	Stack *id = reverseDFS(routerG, list, subredes);
+
     /** comment later, just for debug */
-    printGraph(routerG, list);   
-    printGraph(forestG, list);     
+    //printGraph(routerG, list);
+
+    printf("%d\n", subredes);
+    for (int i = 0; i < id->size; i++) {
+    	if (i == id->size - 1)
+    		printf("%d\n", stackPop(id));
+    	else
+    		printf("%d ", stackPop(id));
+    }
+    printf("%d\n", ap);
+
+
     return 0;
 }

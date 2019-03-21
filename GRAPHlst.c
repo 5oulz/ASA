@@ -31,12 +31,46 @@ Graph GRAPHinit(int V) {
 }
 
 void GRAPHinsertE(Graph G, Edge e) {
-    int v = e.v, w = e.w;
+    int v = e.v;
+    int w = e.w;
     G->adj[v] = InsertBegin(w, G->adj[v]);
     G->adj[w] = InsertBegin(v, G->adj[w]);
     G->E++;
 }
 
+
+/** a variavel precisa de ser global
+   por causa da recursao (Causa problemas) **/
+int time = 1;
+
+void DFS(Graph G, Info *list) {
+    for(int v = 1; v < G->V; v++) {
+        if(list[v].visited == 0)
+            DFSaux(G, list, v);
+    }
+}
+
+
+void DFSaux(Graph G, Info *list, int u) {
+    list[u].visited = 1;
+    list[u].d = time;
+    time = time + 1;
+    
+    for (link p = G->adj[u]; p != NULL; p = p->next) {
+        int v = p->v;
+        if(list[v].visited == 0) {
+            list[v].pred = u;
+            DFSaux(G, list, v);
+        }
+    }
+
+    list[u].visited = 2;
+    list[u].f = time;
+    time = time + 1;
+}
+
+
+/**
 void GRAPHremoveE(Graph G, Edge e){
 
 }
@@ -47,19 +81,10 @@ int GRAPHedges(Edge a[], Graph G) {
 
     for (v = 0; v < G->V; v++) {
         for (t = G->adj[v]; t != NULL; t = t->next) {
-            if (v < t->v ) {
+            if (v < t->v) {
                 a[E++] = EDGE(v, t->v);
             }
         }
     }
-
     return E;
-}
-
-/**
- * BFS
- */
-
-void bfsAlg(Graph G, int startNode) {
-
-}
+}  **/

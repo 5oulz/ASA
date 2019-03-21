@@ -10,17 +10,28 @@ struct node {
 	link next;
 };
 
+typedef struct graph *Graph;
+
 struct graph {
 	int V;
 	int E;
-	link *adj;
+	link *adj; /* array of lists */
 };
 
+typedef struct {
+	int d;
+	int f;
+	int visited;
+	int pred;
+} Info;
+
+
 Edge EDGE(int x, int y);
-typedef struct graph *Graph;
 Graph GRAPHinit(int);
 void GRAPHinsertE(Graph, Edge);
 void GRAPHremoveE(Graph, Edge);
 int GRAPHedges(Edge a[], Graph G);
 Graph GRAPHcopy(Graph);
 void GRAPHdestroy(Graph); 
+void DFS(Graph G, Info *list);
+void DFSaux(Graph G, Info *list, int i);

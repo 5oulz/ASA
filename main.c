@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
     * M - number of connections
     * */
     int N, M;
-    Graph routerG, forestG;
+    Graph routerG, forestG; /* test*/
 
     scanf("%d", &N);
     scanf("%d", &M);
